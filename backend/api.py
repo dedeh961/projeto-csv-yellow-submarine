@@ -1,11 +1,12 @@
 import os
 
+from controllers.BaixarCSVController import blp as BaixarCSVBlueprint
+from controllers.ListarCSVsController import blp as ListarCSVsBlueprint
 from controllers.SalvarCSVController import blp as SalvarCSVBlueprint
 from dotenv import dotenv_values
-from flask import Flask, Response, abort
+from flask import Flask
 from flask_cors import CORS
 from minio import Minio
-from minio.error import S3Error
 from waitress import serve
 
 
@@ -36,40 +37,8 @@ def create_app():
         client.make_bucket(nome_do_bucket)
 
     app.register_blueprint(SalvarCSVBlueprint)
-
-    @app.route("/ListaDeCSVs", methods=["GET"])
-    def lista_de_csvs():
-        try:
-            objetos_do_minio = client.list_objects(nome_do_bucket)
-
-            url_base = "http://localhost:5000/BaixarCSV/"
-
-            lista_de_arquivos = [
-                {"nome": obj.object_name, "url": url_base + obj.object_name}
-                for obj in objetos_do_minio
-                if obj.object_name.endswith(".csv")
-            ]
-
-            return {"lista_de_arquivos": lista_de_arquivos}
-
-        except S3Error as e:
-            return abort(500, str(e))
-
-    @app.route("/BaixarCSV/<string:nome_do_arquivo>", methods=["GET"])
-    def baixar_csv(nome_do_arquivo):
-        try:
-            objeto_do_minio = client.get_object(nome_do_bucket, nome_do_arquivo)
-
-            conteudo_do_csv = objeto_do_minio.read()
-
-            objeto_do_minio.close()
-
-            objeto_do_minio.release_conn()
-
-            return Response(conteudo_do_csv, mimetype="text/csv")
-
-        except S3Error as e:
-            return abort(500, str(e))
+    app.register_blueprint(ListarCSVsBlueprint)
+    app.register_blueprint(BaixarCSVBlueprint)
 
     return app
 
