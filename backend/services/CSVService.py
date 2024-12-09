@@ -1,15 +1,14 @@
 from flask import current_app
-from utils.CriarConexaoMinioUtil import criar_conexao_minio
+from utils.MinioUtil import MinioUtil
 
 
 class CSVService:
     def __init__(self):
         self.nome_do_bucket = current_app.config["NOME_DO_BUCKET"]
+        self.minio = MinioUtil().criar_conexao()
 
     def salvar(self, arquivo: object) -> None:
-        minio = criar_conexao_minio()
-
-        minio.put_object(
+        self.minio.put_object(
             self.nome_do_bucket,
             arquivo.filename,
             arquivo,
@@ -18,9 +17,7 @@ class CSVService:
         )
 
     def listar_links(self) -> list:
-        minio = criar_conexao_minio()
-
-        objetos_do_minio = minio.list_objects(self.nome_do_bucket)
+        objetos_do_minio = self.minio.list_objects(self.nome_do_bucket)
 
         url_base = "http://localhost:5000/BaixarCSV/"
 
@@ -31,9 +28,7 @@ class CSVService:
         ]
 
     def baixar_csv(self, nome_do_arquivo: str) -> bytes:
-        minio = criar_conexao_minio()
-
-        objeto_do_minio = minio.get_object(self.nome_do_bucket, nome_do_arquivo)
+        objeto_do_minio = self.minio.get_object(self.nome_do_bucket, nome_do_arquivo)
 
         conteudo_do_csv = objeto_do_minio.read()
 

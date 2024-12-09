@@ -6,7 +6,7 @@ from controllers.SalvarCSVController import blp as SalvarCSVBlueprint
 from dotenv import dotenv_values
 from flask import Flask
 from flask_cors import CORS
-from minio import Minio
+from utils.MinioUtil import MinioUtil
 from waitress import serve
 
 
@@ -22,23 +22,12 @@ def create_app():
 
     app.config.update(variaveis_de_ambiente)
 
-    client = Minio(
-        app.config["MINIO_ENDPOINT"].replace("http://", ""),
-        access_key=app.config["MINIO_ACCESS_KEY"],
-        secret_key=app.config["MINIO_SECRET_KEY"],
-        secure=False,
-    )
-
-    nome_do_bucket = app.config["NOME_DO_BUCKET"]
-
-    bucket = client.bucket_exists(nome_do_bucket)
-
-    if not bucket:
-        client.make_bucket(nome_do_bucket)
-
     app.register_blueprint(SalvarCSVBlueprint)
     app.register_blueprint(ListarCSVsBlueprint)
     app.register_blueprint(BaixarCSVBlueprint)
+
+    with app.app_context():
+        MinioUtil().criar_bucket()
 
     return app
 
