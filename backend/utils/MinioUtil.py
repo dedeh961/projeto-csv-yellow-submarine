@@ -1,5 +1,6 @@
 from flask import current_app
 from minio import Minio
+from urllib3.response import HTTPResponse
 
 
 class MinioUtil:
@@ -22,3 +23,7 @@ class MinioUtil:
             secret_key=self.secret_key,
             secure=False,
         )
+
+    def fechar_conexao(self, objeto: HTTPResponse) -> None:
+        objeto.close()
+        objeto.release_conn()
