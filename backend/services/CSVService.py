@@ -21,8 +21,12 @@ class CSVService:
         objetos_do_minio = self.minio.list_objects(self.nome_do_bucket)
 
         return [
-            {"nome": obj.object_name, "url": self.url_base_baixar_csv + obj.object_name}
-            for obj in objetos_do_minio
+            {
+                "id": i + 1,
+                "nome": obj.object_name,
+                "url": self.url_base_baixar_csv + obj.object_name,
+            }
+            for i, obj in enumerate(objetos_do_minio)
             if obj.object_name.endswith(".csv")
         ]
 
