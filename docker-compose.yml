@@ -16,6 +16,7 @@ services:
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
       - MINIO_ENDPOINT=http://minio:9000
+      - NOME_DO_BUCKET=${NOME_DO_BUCKET}
     depends_on:
       - minio
 
