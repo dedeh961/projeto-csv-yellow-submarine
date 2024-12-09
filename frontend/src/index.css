@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background-image: url('./src/assets/yellow_submarine.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: Arial, sans-serif;
+}
