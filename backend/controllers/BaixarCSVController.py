@@ -10,7 +10,7 @@ blp = Blueprint("BaixarCSVController", __name__)
 class BaixarCSVController(MethodView):
     def get(self, nome_do_arquivo: str) -> tuple:
         try:
-            conteudo_do_csv = CSVService().baixar_csv(nome_do_arquivo)
+            conteudo_do_csv = CSVService().baixar(nome_do_arquivo)
 
             return Response(conteudo_do_csv, mimetype="text/csv")
 

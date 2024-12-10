@@ -30,7 +30,7 @@ class CSVService:
             if obj.object_name.endswith(".csv")
         ]
 
-    def baixar_csv(self, nome_do_arquivo: str) -> bytes:
+    def baixar(self, nome_do_arquivo: str) -> bytes:
         objeto_do_minio = self.minio.get_object(self.nome_do_bucket, nome_do_arquivo)
 
         conteudo_do_csv = objeto_do_minio.read()
