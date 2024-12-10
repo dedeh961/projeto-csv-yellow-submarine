@@ -1,5 +1,5 @@
 from enums.CodigoHTTPEnum import CodigoHTTP
-from flask import Blueprint, abort, send_file
+from flask import Blueprint, abort, Response
 from flask.views import MethodView
 from minio.error import S3Error
 from services.CSVService import CSVService
@@ -12,7 +12,7 @@ class BaixarCSVController(MethodView):
         try:
             conteudo_do_csv = CSVService().baixar_csv(nome_do_arquivo)
 
-            return send_file(conteudo_do_csv, mimetype="text/csv")
+            return Response(conteudo_do_csv, mimetype="text/csv")
 
         except S3Error as e:
             return abort(CodigoHTTP.erro_interno.value, str(e))
