@@ -1,4 +1,4 @@
-import FilePond from "./components/salvarCSV/salvarCSV";
+import SalvarCSV from "./components/salvarCSV/salvarCSV";
 import ListarCSVs from "./components/listarCSVs/listarCSVs";
 import React, { useState, useEffect } from "react";
 
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <FilePond eventoArquivoSalvo={recuperarLista}/>
+      <SalvarCSV eventoArquivoSalvo={recuperarLista}/>
       <ListarCSVs listaCSVs={listaCSVs} carregando={carregando} />
     </>
   )
