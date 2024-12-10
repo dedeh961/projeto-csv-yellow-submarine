@@ -14,9 +14,9 @@ const listarCSVs = ({ listaCSVs, carregando }) => {
         return (
             <TableHead>
                 <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Nome</TableCell>
-                    <TableCell>URL</TableCell>
+                    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>ID</TableCell>
+                    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Nome</TableCell>
+                    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>URL</TableCell>
                 </TableRow>
             </TableHead>
         );
@@ -41,7 +41,7 @@ const listarCSVs = ({ listaCSVs, carregando }) => {
     }
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{ width: '75%', margin: '20px auto' }}>
             <Table>
                 {cabecalho()}
                 {linhas()}
