@@ -6,7 +6,7 @@ import style from './salvarCSV.module.css';
 
 registerPlugin(FilePondPluginFileValidateType);
 
-const salvarCSV = () => {
+const salvarCSV = ({eventoArquivoSalvo}) => {
   return (
     <div>
       <FilePond
@@ -17,6 +17,9 @@ const salvarCSV = () => {
         instantUpload={false} // Desabilita o envio automático
         server={{
           url: 'http://localhost:5000/SalvarCSV',
+        }}
+        onprocessfile={() => {
+          eventoArquivoSalvo();
         }}
       />
     </div>

@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
     Table,
     TableBody,
@@ -10,27 +9,7 @@ import {
     CircularProgress
 } from "@mui/material";
 
-const listarCSVs = () => {
-    const [listaCSVs, definirLista] = useState([]);
-    const [carregando, definirCarregando] = useState(true);
-    const url = "http://localhost:5000/ListarCSVs";
-
-    useEffect(() => {
-        const recuperarLista = async () => {
-            try {
-                const resposta = await fetch(url);
-                const resultado = await resposta.json();
-                definirLista(resultado['links']);
-            } catch (error) {
-                console.error("Erro ao buscar dados:", error);
-            } finally {
-                definirCarregando(false);
-            }
-        };
-
-        recuperarLista();
-    }, []);
-
+const listarCSVs = ({ listaCSVs, carregando }) => {
     const cabecalho = () => {
         return (
             <TableHead>
