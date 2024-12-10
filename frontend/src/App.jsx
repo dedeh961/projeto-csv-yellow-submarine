@@ -1,6 +1,6 @@
 import SalvarCSV from "./components/salvarCSV/salvarCSV";
 import ListarCSVs from "./components/listarCSVs/listarCSVs";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [listaCSVs, definirLista] = useState([]);
